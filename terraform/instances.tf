@@ -3,8 +3,7 @@ resource "aws_instance" "jumpbox" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.jumpbox_sg.id]
-  iam_instance_profile   = aws_iam_instance_profile.ec2_instance_profile.name
-  key_name               = "gndwrk-erp"
+  key_name               = aws_key_pair.bastion_key.key_name
   user_data              = <<-EOF
                   #!/bin/bash
                   sudo apt update
@@ -13,10 +12,12 @@ resource "aws_instance" "jumpbox" {
 
                   # Add ubuntu user to docker group
                   sudo usermod -a -G docker ubuntu
-                  
-                  # Write the private key to a file
-                  echo "${data.aws_ssm_parameter.private_key.value}" > /home/ubuntu/gndwrk-erp.pem
-                  chmod 400 /home/ubuntu/gndwrk-erp.pem
+
+                  # Add private key
+                  mkdir -p /home/ubuntu/.ssh
+                  echo "${tls_private_key.bastion_ssh_key.private_key_pem}" > /home/ubuntu/.ssh/id_rsa
+                  chmod 600 /home/ubuntu/.ssh/id_rsa
+                  chown -R ubuntu:ubuntu /home/ubuntu/.ssh
                   EOF
   tags = {
     Name = "gndwrk-erp-jumpbox"
@@ -28,7 +29,7 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.private.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = "gndwrk-erp"
+  key_name               = aws_key_pair.bastion_key.key_name
   user_data              = <<-EOF
                   #!/bin/bash
                   sudo apt update
