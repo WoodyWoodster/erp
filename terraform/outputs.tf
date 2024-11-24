@@ -2,10 +2,6 @@ output "jumpbox_public_ip" {
   value = aws_instance.jumpbox.public_ip
 }
 
-output "jumpbox_private_ip" {
-  value = aws_instance.jumpbox.vpc_security_group_ids
-}
-
 output "web_private_ip" {
   value = aws_instance.web.private_ip
 }
