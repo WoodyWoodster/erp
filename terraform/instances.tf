@@ -41,4 +41,6 @@ resource "aws_instance" "web" {
   tags = {
     Name = "gndwrk-erp-web"
   }
+
+  depends_on = [aws_nat_gateway.main]
 }
