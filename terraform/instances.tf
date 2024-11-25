@@ -34,7 +34,8 @@ resource "aws_instance" "web" {
                   #!/bin/bash
                   sudo apt update
                   sudo apt upgrade -y
-                  sudo apt install -y docker.io curl git openssh-server
+                  sudo apt install -y docker.io curl git
+
                   sudo usermod -a -G docker ubuntu
                   EOF
   tags = {
