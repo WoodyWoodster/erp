@@ -68,6 +68,8 @@ resource "aws_route_table" "private" {
   tags = {
     Name = "gndwrk-erp-private-route-table"
   }
+
+  depends_on = [aws_nat_gateway.main]
 }
 
 resource "aws_route_table_association" "public" {
