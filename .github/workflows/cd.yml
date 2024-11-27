@@ -45,7 +45,8 @@ jobs:
 
             - name: Purge all IPs from security group
               run: |
-                  aws ec2 revoke-security-group-ingress --group-id ${{ secrets.SECURITY_GROUP_ID }}
+                  IP_PERMISSIONS=$(aws ec2 describe-security-groups --group-ids ${{ secrets.SECURITY_GROUP_ID }} --query "SecurityGroups[0].IpPermissions" --output json)
+                  aws ec2 revoke-security-group-ingress --group-id ${{ secrets.SECURITY_GROUP_ID }} --ip-permissions "$IP_PERMISSIONS"
 
             - name: Set SSH on security group
               run: |
