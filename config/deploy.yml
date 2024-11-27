@@ -8,7 +8,7 @@ image: woodywoodster/gdnwrk-erp
 servers:
   web:
     hosts:
-      - gndwrk.us
+      - HOST_IP
     # options:
     #   expose: 3000
   # job:
