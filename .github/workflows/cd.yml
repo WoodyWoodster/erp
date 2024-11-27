@@ -45,7 +45,7 @@ jobs:
 
             - name: Purge all IPs from security group for port 22
               run: |
-                  IP_RANGES=$(aws ec2 describe-security-groups --group-ids ${{ secrets.SECURITY_GROUP_ID }} --query "SecurityGroups[0].IpPermissions[?FromPort==`22`].IpRanges[].CidrIp" --output text)
+                  IP_RANGES=$(aws ec2 describe-security-groups --group-ids ${{ secrets.SECURITY_GROUP_ID }} --query "SecurityGroups[0].IpPermissions[?FromPort=='22'].IpRanges[].CidrIp" --output text)
                   for IP in $IP_RANGES; do
                     aws ec2 revoke-security-group-ingress --group-id ${{ secrets.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr $IP
                   done
