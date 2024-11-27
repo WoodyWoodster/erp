@@ -8,7 +8,7 @@ image: woodywoodster/gdnwrk-erp
 servers:
   web:
     hosts:
-      - HOST_IP
+      - 96.126.116.192
     # options:
     #   expose: 3000
   # job:
