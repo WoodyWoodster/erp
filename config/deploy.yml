@@ -2,13 +2,13 @@
 service: erp
 
 # Name of the container image.
-image: woodywoodster/erp
+image: woodywoodster/gdnwrk-erp
 
 # Deploy to these servers.
 servers:
   web:
     hosts:
-      - erp.gndwrk.us
+      - gndwrk.us
     # options:
     #   expose: 3000
   # job:
