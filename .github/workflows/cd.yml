@@ -26,6 +26,10 @@ jobs:
                   ruby-version: 3.3.6
                   bundler-cache: true
 
+            - name: Public IP
+              id: ip
+              uses: haythem/public-ip@v1.3
+
             - name: Install dependencies
               run: |
                   gem install specific_install
@@ -38,6 +42,10 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: us-west-2
                   mask-aws-account-id: false
+
+            - name: Set SSH on security group
+              run: |
+                  aws ec2 authorize-security-group-ingress --group-id ${{ secrets.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ip }}/32
 
             - name: Log in to Amazon ECR
               id: login-ecr
