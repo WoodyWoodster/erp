@@ -43,9 +43,9 @@ jobs:
                   aws-region: us-west-2
                   mask-aws-account-id: false
 
-            - name: Purge all IPs from security group for port 22
+            - name: Purge all IPs from security group
               run: |
-                  aws ec2 revoke-security-group-ingress --group-id ${{ secrets.SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr 0.0.0.0/0
+                  aws ec2 revoke-security-group-ingress --group-id ${{ secrets.SECURITY_GROUP_ID }}
 
             - name: Set SSH on security group
               run: |
